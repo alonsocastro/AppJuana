@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup Condition="$([MSBuild]::IsOSPlatform('osx'))">
-		<TargetFrameworks>net9.0-ios;net9.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks>net9.0-ios</TargetFrameworks>
 	</PropertyGroup>
 	<PropertyGroup Condition="!$([MSBuild]::IsOSPlatform('osx'))">
 		<TargetFrameworks>net9.0-android;net9.0-ios</TargetFrameworks>
