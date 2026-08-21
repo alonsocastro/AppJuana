@@ -42,7 +42,7 @@ jobs:
             -p:ValidateXcodeVersion=false \
             -p:_IgnoreXcodeVersionCheck=true \
             -p:MtouchLink=None \
-            -p:PublishTrimmed=false \
+            -p:PublishTrimmed=true \
             --verbosity normal
 
       - name: Package IPA for Sideloading

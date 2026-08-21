@@ -53,7 +53,7 @@
 		<ValidateXcodeVersion>false</ValidateXcodeVersion>
 		<_IgnoreXcodeVersionCheck>true</_IgnoreXcodeVersionCheck>
 		<MtouchLink>None</MtouchLink>
-		<PublishTrimmed>false</PublishTrimmed>
+		<PublishTrimmed>true</PublishTrimmed>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">
