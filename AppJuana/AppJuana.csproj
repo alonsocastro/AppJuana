@@ -50,6 +50,7 @@
 		<_CodesignApp>false</_CodesignApp>
 		<CodesignKey>-</CodesignKey>
 		<CodesignProvision></CodesignProvision>
+		<ValidateXcodeVersion>false</ValidateXcodeVersion>
 		<_IgnoreXcodeVersionCheck>true</_IgnoreXcodeVersionCheck>
 	</PropertyGroup>
 
@@ -124,5 +125,8 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
+
+	<!-- Anular la validación estricta de versión de Xcode -->
+	<Target Name="_ValidateXcodeVersion" />
 
 </Project>

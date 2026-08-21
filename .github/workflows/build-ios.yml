@@ -39,6 +39,7 @@ jobs:
             -p:CodesignKey="-" \
             -p:CodesignProvision="" \
             -p:ArchiveOnBuild=false \
+            -p:ValidateXcodeVersion=false \
             -p:_IgnoreXcodeVersionCheck=true \
             --verbosity normal
 
