@@ -24,6 +24,7 @@ jobs:
       - name: Build iOS Application (Release)
         run: |
           dotnet publish AppJuana/AppJuana.csproj \
+            -p:TargetFrameworks=net9.0-ios \
             -f net9.0-ios \
             -c Release \
             -r ios-arm64 \
@@ -34,8 +35,13 @@ jobs:
       - name: Package into IPA for Sideloading
         run: |
           mkdir -p Payload
-          APP_PATH=$(find . -name "AppJuana.app" -type d | head -n 1)
+          # Buscar la carpeta AppJuana.app generada
+          APP_PATH=$(find . -name "*.app" -type d | head -n 1)
           echo "App encontrado en: $APP_PATH"
+          if [ -z "$APP_PATH" ]; then
+            echo "Error: No se encontró la carpeta .app"
+            exit 1
+          fi
           cp -r "$APP_PATH" Payload/
           zip -r AppJuana.ipa Payload
 
