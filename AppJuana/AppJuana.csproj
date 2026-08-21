@@ -52,6 +52,7 @@
 		<CodesignProvision></CodesignProvision>
 		<ValidateXcodeVersion>false</ValidateXcodeVersion>
 		<_IgnoreXcodeVersionCheck>true</_IgnoreXcodeVersionCheck>
+		<MtouchLink>SdkOnly</MtouchLink>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">

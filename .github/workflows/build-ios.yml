@@ -17,10 +17,10 @@ jobs:
         with:
           xcode-version: 'latest-stable'
 
-      - name: Setup .NET 9
+      - name: Setup .NET 9.0.100 (Stable GA)
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.0.x'
+          dotnet-version: '9.0.100'
 
       - name: Install MAUI Workloads
         run: |
@@ -41,6 +41,7 @@ jobs:
             -p:ArchiveOnBuild=false \
             -p:ValidateXcodeVersion=false \
             -p:_IgnoreXcodeVersionCheck=true \
+            -p:MtouchLink=SdkOnly \
             --verbosity normal
 
       - name: Package IPA for Sideloading
