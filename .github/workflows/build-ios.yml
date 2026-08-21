@@ -12,17 +12,6 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Select Xcode 16
-        run: |
-          if [ -d "/Applications/Xcode_16.1.app" ]; then
-            sudo xcode-select -s /Applications/Xcode_16.1.app
-          elif [ -d "/Applications/Xcode_16.0.app" ]; then
-            sudo xcode-select -s /Applications/Xcode_16.0.app
-          elif [ -d "/Applications/Xcode_16.app" ]; then
-            sudo xcode-select -s /Applications/Xcode_16.app
-          fi
-          xcodebuild -version
-
       - name: Setup .NET 9
         uses: actions/setup-dotnet@v4
         with:
@@ -30,20 +19,19 @@ jobs:
 
       - name: Install MAUI iOS Workload
         run: |
-          sudo dotnet workload install maui-ios
+          dotnet workload install maui-ios
 
       - name: Build and Package iOS Application
         run: |
-          dotnet publish AppJuana/AppJuana.csproj \
+          dotnet build AppJuana/AppJuana.csproj \
+            -p:TargetFrameworks=net9.0-ios \
             -f net9.0-ios \
             -c Release \
             -p:RuntimeIdentifier=ios-arm64 \
             -p:EnableCodeSigning=false \
             -p:_CodesignApp=false \
             -p:CodesignKey="-" \
-            -p:CodesignProvision="" \
-            -p:ArchiveOnBuild=false \
-            -v normal
+            -p:CodesignProvision=""
 
       - name: Locate and Package IPA for Sideloading
         run: |
