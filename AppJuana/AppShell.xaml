@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="AppJuana.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:AppJuana.Views"
+    xmlns:local="clr-namespace:AppJuana"
+    Title="Juana Bonita"
+    Shell.NavBarIsVisible="False">
+
+    <!-- Rutas sin pestañas (Autenticación e inicio) -->
+    <ShellContent Route="SplashPage" ContentTemplate="{DataTemplate views:SplashPage}" />
+    <ShellContent Route="LoginPage" ContentTemplate="{DataTemplate views:LoginPage}" />
+
+    <!-- Página principal con TabBar Navegable -->
+    <TabBar Route="MainPage">
+        <Tab Title="Inicio" Icon="home.png">
+            <ShellContent ContentTemplate="{DataTemplate views:HomeView}" />
+        </Tab>
+        <Tab Title="Cartera" Icon="carterappal.png">
+            <ShellContent ContentTemplate="{DataTemplate views:RecaudoView}" />
+        </Tab>
+        <Tab Title="Pedidos" Icon="pedidos.png">
+            <ShellContent ContentTemplate="{DataTemplate views:OrderTracingView}" />
+        </Tab>
+        <Tab Title="Notif." Icon="comercial.png">
+            <ShellContent ContentTemplate="{DataTemplate views:NotificationsView}" />
+        </Tab>
+        <Tab Title="Ajustes" Icon="settings.png">
+            <ShellContent ContentTemplate="{DataTemplate views:SettingsView}" />
+        </Tab>
+    </TabBar>
+</Shell>

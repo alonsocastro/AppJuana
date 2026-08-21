@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:AppJuana.ViewModels"
+             xmlns:models="clr-namespace:AppJuana.Models"
+             x:Class="AppJuana.Views.RecaudoView"
+             x:DataType="viewModels:RecaudoViewModel"
+             Title="Cartera y Recaudos"
+             Shell.NavBarIsVisible="True">
+
+    <Grid RowDefinitions="Auto, Auto, *" Padding="18, 16" RowSpacing="16">
+
+        <!-- 1. Hero Card: Métrica de Total Global -->
+        <Border Grid.Row="0"
+                Style="{StaticResource HeroCard}">
+            <VerticalStackLayout Spacing="6">
+                <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
+                    <Label Text="TOTAL RECAUDOS GLOBAL"
+                           FontSize="11"
+                           FontFamily="OpenSans-Semibold"
+                           TextColor="#DDFFFFFF"
+                           CharacterSpacing="1" />
+                    <Border BackgroundColor="#33FFFFFF"
+                            StrokeShape="RoundRectangle 8"
+                            Padding="6,2">
+                        <Label Text="Consolidado"
+                               FontSize="9"
+                               TextColor="{StaticResource White}"
+                               FontFamily="OpenSans-Semibold" />
+                    </Border>
+                </HorizontalStackLayout>
+
+                <Label Text="{Binding TotalRecaudosGlobal, StringFormat='{0:C}'}"
+                       FontSize="28"
+                       FontFamily="OpenSans-Semibold"
+                       TextColor="{StaticResource White}" />
+
+                <Label Text="Consulta y desglose por entidad financiera"
+                       FontSize="12"
+                       TextColor="#CCFFFFFF" />
+            </VerticalStackLayout>
+        </Border>
+
+        <!-- 2. Filtros de Fecha & Acción -->
+        <Border Grid.Row="1"
+                Style="{StaticResource ThemeAwareCard}"
+                Padding="16, 14">
+            <VerticalStackLayout Spacing="14">
+                <Grid ColumnDefinitions="*, *" ColumnSpacing="12">
+                    
+                    <!-- Fecha Inicial -->
+                    <VerticalStackLayout Grid.Column="0" Spacing="4">
+                        <Label Text="Fecha Inicial"
+                               FontSize="12"
+                               FontFamily="OpenSans-Semibold"
+                               TextColor="{AppThemeBinding Light={StaticResource TextSecondary}, Dark={StaticResource Gray400}}" />
+                        <Border Style="{StaticResource EntryFrame}" Padding="10, 0">
+                            <DatePicker Date="{Binding FechaInicial}"
+                                        FontSize="13"
+                                        TextColor="{AppThemeBinding Light={StaticResource TextPrimary}, Dark={StaticResource White}}"
+                                        Format="yyyy-MM-dd" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <!-- Fecha Final -->
+                    <VerticalStackLayout Grid.Column="1" Spacing="4">
+                        <Label Text="Fecha Final"
+                               FontSize="12"
+                               FontFamily="OpenSans-Semibold"
+                               TextColor="{AppThemeBinding Light={StaticResource TextSecondary}, Dark={StaticResource Gray400}}" />
+                        <Border Style="{StaticResource EntryFrame}" Padding="10, 0">
+                            <DatePicker Date="{Binding FechaFinal}"
+                                        FontSize="13"
+                                        TextColor="{AppThemeBinding Light={StaticResource TextPrimary}, Dark={StaticResource White}}"
+                                        Format="yyyy-MM-dd" />
+                        </Border>
+                    </VerticalStackLayout>
+                </Grid>
+
+                <!-- Botón de Búsqueda -->
+                <Button Text="Consultar Recaudos"
+                        Command="{Binding ConsultarCommand}"
+                        IsEnabled="{Binding IsNotBusy}"
+                        HeightRequest="46"
+                        FontSize="14" />
+            </VerticalStackLayout>
+        </Border>
+
+        <!-- 3. Lista de Recaudos por Banco -->
+        <Grid Grid.Row="2">
+            
+            <!-- Indicador de Carga -->
+            <ActivityIndicator IsRunning="{Binding IsBusy}" 
+                               IsVisible="{Binding IsBusy}" 
+                               Color="{StaticResource Primary}"
+                               HeightRequest="40"
+                               WidthRequest="40"
+                               HorizontalOptions="Center" 
+                               VerticalOptions="Center"/>
+
+            <CollectionView ItemsSource="{Binding Recaudos}" 
+                            IsVisible="{Binding IsNotBusy}"
+                            SelectionMode="None">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="12" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Recaudo">
+                        <Border Style="{StaticResource ThemeAwareCard}"
+                                Padding="16, 14">
+                            <VerticalStackLayout Spacing="10">
+
+                                <!-- Cabecera de Banco con Badge de Participación -->
+                                <Grid ColumnDefinitions="*, Auto" VerticalOptions="Center">
+                                    <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
+                                        <Border HeightRequest="28"
+                                                WidthRequest="28"
+                                                StrokeShape="RoundRectangle 8"
+                                                BackgroundColor="{StaticResource PrimaryLight}"
+                                                StrokeThickness="0">
+                                            <Label Text="🏦"
+                                                   FontSize="14"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center" />
+                                        </Border>
+                                        <Label Text="{Binding Banco}"
+                                               FontSize="15"
+                                               FontFamily="OpenSans-Semibold"
+                                               VerticalOptions="Center"
+                                               Style="{StaticResource BoldPrimaryTextStyle}" />
+                                    </HorizontalStackLayout>
+
+                                    <!-- Badge de Participación -->
+                                    <Border Grid.Column="1"
+                                            BackgroundColor="{StaticResource InfoLight}"
+                                            StrokeShape="RoundRectangle 10"
+                                            Padding="8, 3">
+                                        <Label Text="{Binding Participacion, StringFormat='{0}% part.'}"
+                                               FontSize="11"
+                                               FontFamily="OpenSans-Semibold"
+                                               TextColor="{StaticResource InfoDark}" />
+                                    </Border>
+                                </Grid>
+
+                                <BoxView HeightRequest="1" Color="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource DarkSurfaceBorder}}" />
+
+                                <!-- Desglose de Valores en Cuadrícula 2 Columnas -->
+                                <Grid ColumnDefinitions="*, *" RowDefinitions="Auto, Auto" RowSpacing="6" ColumnSpacing="12">
+                                    <VerticalStackLayout Grid.Row="0" Grid.Column="0" Spacing="1">
+                                        <Label Text="Valor Bruto" FontSize="11" Style="{StaticResource SecondaryTextStyle}" />
+                                        <Label Text="{Binding Valor, StringFormat='{0:C}'}" FontSize="13" Style="{StaticResource PrimaryTextStyle}" FontFamily="OpenSans-Semibold" />
+                                    </VerticalStackLayout>
+
+                                    <VerticalStackLayout Grid.Row="0" Grid.Column="1" Spacing="1">
+                                        <Label Text="Comisión" FontSize="11" Style="{StaticResource SecondaryTextStyle}" />
+                                        <Label Text="{Binding Comision, StringFormat='{0:C}'}" FontSize="13" TextColor="{StaticResource Danger}" FontFamily="OpenSans-Semibold" />
+                                    </VerticalStackLayout>
+
+                                    <VerticalStackLayout Grid.Row="1" Grid.Column="0" Spacing="1">
+                                        <Label Text="IVA" FontSize="11" Style="{StaticResource SecondaryTextStyle}" />
+                                        <Label Text="{Binding Iva, StringFormat='{0:C}'}" FontSize="13" Style="{StaticResource PrimaryTextStyle}" />
+                                    </VerticalStackLayout>
+
+                                    <VerticalStackLayout Grid.Row="1" Grid.Column="1" Spacing="1">
+                                        <Label Text="Retención" FontSize="11" Style="{StaticResource SecondaryTextStyle}" />
+                                        <Label Text="{Binding Retencion, StringFormat='{0:C}'}" FontSize="13" Style="{StaticResource PrimaryTextStyle}" />
+                                    </VerticalStackLayout>
+                                </Grid>
+
+                                <!-- Fila Destacada: Consignación Neta -->
+                                <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray900}}"
+                                        Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource DarkSurfaceBorder}}"
+                                        StrokeShape="RoundRectangle 10"
+                                        Padding="12, 8">
+                                    <Grid ColumnDefinitions="*, Auto" VerticalOptions="Center">
+                                        <Label Text="Consignación Neta:"
+                                               FontSize="13"
+                                               FontFamily="OpenSans-Semibold"
+                                               Style="{StaticResource PrimaryTextStyle}"
+                                               VerticalOptions="Center" />
+                                        <Label Grid.Column="1"
+                                               Text="{Binding ConsignacionNeta, StringFormat='{0:C}'}"
+                                               FontSize="14"
+                                               FontFamily="OpenSans-Semibold"
+                                               TextColor="{StaticResource SuccessDark}"
+                                               VerticalOptions="Center" />
+                                    </Grid>
+                                </Border>
+
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </Grid>
+</ContentPage>

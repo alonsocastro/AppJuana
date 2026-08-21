@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppJuana.Views.SettingsView"
+             Title="Ajustes y Configuración">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="18, 20, 18, 30">
+
+            <!-- 1. Tarjeta de Usuario & Sesión -->
+            <Border Style="{StaticResource ThemeAwareCard}"
+                    Padding="18, 16">
+                <Grid ColumnDefinitions="Auto, *" ColumnSpacing="14" VerticalOptions="Center">
+                    <Border HeightRequest="52"
+                            WidthRequest="52"
+                            StrokeShape="RoundRectangle 26"
+                            BackgroundColor="{StaticResource PrimaryLight}"
+                            StrokeThickness="0"
+                            VerticalOptions="Center">
+                        <Image Source="perfil.png"
+                               HeightRequest="30"
+                               WidthRequest="30"
+                               Aspect="AspectFit"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center" />
+                    </Border>
+                    <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                        <Label x:Name="LblUserName"
+                               Text="Usuario Activo"
+                               FontSize="16"
+                               Style="{StaticResource BoldPrimaryTextStyle}" />
+                        <Label Text="Juana Bonita • Gestión Integral"
+                               FontSize="12"
+                               Style="{StaticResource SecondaryTextStyle}" />
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+
+            <!-- 2. Sección: Preferencias del Sistema -->
+            <VerticalStackLayout Spacing="10">
+                <Label Text="Preferencias"
+                       Style="{StaticResource SectionTitle}" />
+
+                <Border Style="{StaticResource ThemeAwareCard}"
+                        Padding="16, 12">
+                    <VerticalStackLayout Spacing="12">
+                        
+                        <Grid ColumnDefinitions="*, Auto" VerticalOptions="Center">
+                            <VerticalStackLayout Spacing="1">
+                                <Label Text="Notificaciones push"
+                                       FontSize="14"
+                                       Style="{StaticResource PrimaryTextStyle}" />
+                                <Label Text="Alertas sobre pedidos y pagos"
+                                       FontSize="11"
+                                       Style="{StaticResource SecondaryTextStyle}" />
+                            </VerticalStackLayout>
+                            <Switch Grid.Column="1" IsToggled="True" OnColor="{StaticResource Primary}" />
+                        </Grid>
+
+                        <BoxView HeightRequest="1" Color="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource DarkSurfaceBorder}}" />
+
+                        <Grid ColumnDefinitions="*, Auto" VerticalOptions="Center">
+                            <VerticalStackLayout Spacing="1">
+                                <Label Text="Sincronización en segundo plano"
+                                       FontSize="14"
+                                       Style="{StaticResource PrimaryTextStyle}" />
+                                <Label Text="Actualización periódica de datos"
+                                       FontSize="11"
+                                       Style="{StaticResource SecondaryTextStyle}" />
+                            </VerticalStackLayout>
+                            <Switch Grid.Column="1" IsToggled="True" OnColor="{StaticResource Primary}" />
+                        </Grid>
+
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- 3. Sección: Información de la Aplicación -->
+            <VerticalStackLayout Spacing="10">
+                <Label Text="Información"
+                       Style="{StaticResource SectionTitle}" />
+
+                <Border Style="{StaticResource ThemeAwareCard}"
+                        Padding="16, 12">
+                    <VerticalStackLayout Spacing="12">
+                        
+                        <Grid ColumnDefinitions="*, Auto" VerticalOptions="Center">
+                            <Label Text="Versión de la App"
+                                   FontSize="14"
+                                   Style="{StaticResource PrimaryTextStyle}" />
+                            <Label Grid.Column="1"
+                                   Text="1.0.0 (Build 2026)"
+                                   FontSize="13"
+                                   TextColor="{StaticResource TextMuted}" />
+                        </Grid>
+
+                        <BoxView HeightRequest="1" Color="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource DarkSurfaceBorder}}" />
+
+                        <Grid ColumnDefinitions="*, Auto" VerticalOptions="Center">
+                            <Label Text="Servidor API"
+                                   FontSize="14"
+                                   Style="{StaticResource PrimaryTextStyle}" />
+                            <Label Grid.Column="1"
+                                   Text="Conectado"
+                                   FontSize="13"
+                                   TextColor="{StaticResource SuccessDark}"
+                                   FontFamily="OpenSans-Semibold" />
+                        </Grid>
+
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- 4. Botón Cerrar Sesión -->
+            <Button Text="Cerrar Sesión"
+                    Clicked="OnLogoutClicked"
+                    Style="{StaticResource OutlinedButton}"
+                    HeightRequest="48"
+                    Margin="0, 10, 0, 0" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

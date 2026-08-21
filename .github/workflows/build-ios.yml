@@ -1,0 +1,53 @@
+name: Build iOS IPA (AppJuana)
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+jobs:
+  build-ios:
+    runs-on: macos-14
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Install .NET MAUI Workload for iOS
+        run: |
+          dotnet workload restore AppJuana/AppJuana.csproj
+          dotnet workload install maui-ios
+
+      - name: Build and Publish iOS Package
+        run: |
+          dotnet publish AppJuana/AppJuana.csproj \
+            -f net9.0-ios \
+            -c Release \
+            -r ios-arm64 \
+            -p:ArchiveOnBuild=true \
+            -p:EnableCodeSigning=false \
+            -o output/ios
+
+      - name: Package App as ZIP / IPA
+        run: |
+          cd output/ios
+          zip -r ../../AppJuana-iOS.zip .
+          # Si se genera .app o .ipa se empaqueta para descarga
+          if [ -d "AppJuana.app" ]; then
+            mkdir -p Payload
+            cp -r AppJuana.app Payload/
+            zip -r ../../AppJuana.ipa Payload
+          fi
+
+      - name: Upload iOS IPA / Package Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: AppJuana-iOS-Build
+          path: |
+            AppJuana.ipa
+            AppJuana-iOS.zip
+            output/ios/

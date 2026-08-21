@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- Primary Brand Colors -->
+    <Color x:Key="Primary">#C62828</Color>
+    <Color x:Key="PrimaryDark">#8E0000</Color>
+    <Color x:Key="PrimaryLight">#FFEBEE</Color>
+    <Color x:Key="PrimaryBright">#E53935</Color>
+    <Color x:Key="PrimaryAccent">#FB7185</Color>
+
+    <!-- Secondary & Accent Colors -->
+    <Color x:Key="Secondary">#1E293B</Color>
+    <Color x:Key="SecondaryLight">#F1F5F9</Color>
+    <Color x:Key="SecondaryDark">#0F172A</Color>
+
+    <!-- Text Colors -->
+    <Color x:Key="TextPrimary">#1A1C1E</Color>
+    <Color x:Key="TextSecondary">#64748B</Color>
+    <Color x:Key="TextMuted">#94A3B8</Color>
+    <Color x:Key="TextOnPrimary">#FFFFFF</Color>
+
+    <!-- Semantic / Status Colors -->
+    <Color x:Key="Success">#10B981</Color>
+    <Color x:Key="SuccessLight">#D1FAE5</Color>
+    <Color x:Key="SuccessDark">#047857</Color>
+    
+    <Color x:Key="Warning">#F59E0B</Color>
+    <Color x:Key="WarningLight">#FEF3C7</Color>
+    
+    <Color x:Key="Info">#3B82F6</Color>
+    <Color x:Key="InfoLight">#DBEAFE</Color>
+    <Color x:Key="InfoDark">#1D4ED8</Color>
+
+    <Color x:Key="Danger">#EF4444</Color>
+    <Color x:Key="DangerLight">#FEE2E2</Color>
+
+    <!-- Surfaces & Neutrals -->
+    <Color x:Key="White">#FFFFFF</Color>
+    <Color x:Key="Black">#000000</Color>
+    <Color x:Key="LightBackground">#F8F9FD</Color>
+    <Color x:Key="OffBlack">#0F172A</Color>
+    <Color x:Key="DarkSurface">#1E222D</Color>
+    <Color x:Key="DarkSurfaceBorder">#2D3242</Color>
+
+    <!-- Standard Grays -->
+    <Color x:Key="Gray50">#F8FAFC</Color>
+    <Color x:Key="Gray100">#F1F5F9</Color>
+    <Color x:Key="Gray200">#E2E8F0</Color>
+    <Color x:Key="Gray300">#CBD5E1</Color>
+    <Color x:Key="Gray400">#94A3B8</Color>
+    <Color x:Key="Gray500">#64748B</Color>
+    <Color x:Key="Gray600">#475569</Color>
+    <Color x:Key="Gray700">#334155</Color>
+    <Color x:Key="Gray800">#1E293B</Color>
+    <Color x:Key="Gray900">#0F172A</Color>
+    <Color x:Key="Gray950">#020617</Color>
+
+    <!-- Solid Brushes -->
+    <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}"/>
+    <SolidColorBrush x:Key="WhiteBrush" Color="{StaticResource White}"/>
+    <SolidColorBrush x:Key="BlackBrush" Color="{StaticResource Black}"/>
+    <SolidColorBrush x:Key="LightBackgroundBrush" Color="{StaticResource LightBackground}"/>
+    <SolidColorBrush x:Key="PrimaryLightBrush" Color="{StaticResource PrimaryLight}"/>
+
+    <!-- Linear Gradients -->
+    <LinearGradientBrush x:Key="PrimaryGradient" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#E53935" Offset="0.0"/>
+        <GradientStop Color="#B71C1C" Offset="1.0"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="HeroGradient" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#C62828" Offset="0.0"/>
+        <GradientStop Color="#7F0000" Offset="1.0"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="CardSplashGradient" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#C62828" Offset="0.0"/>
+        <GradientStop Color="#8E0000" Offset="1.0"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="SoftPillGradient" StartPoint="0,0" EndPoint="1,0">
+        <GradientStop Color="#FFEBEE" Offset="0.0"/>
+        <GradientStop Color="#FFFFFF" Offset="1.0"/>
+    </LinearGradientBrush>
+    
+</ResourceDictionary>

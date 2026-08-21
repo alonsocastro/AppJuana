@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppJuana.Views.HomeView"
+             xmlns:viewModels="clr-namespace:AppJuana.ViewModels"
+             x:DataType="viewModels:HomeViewModel"
+             Title="Inicio"
+             Shell.NavBarIsVisible="False">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="22" Padding="20, 24, 20, 30">
+
+            <!-- 1. Cabecera de Perfil & Bienvenida -->
+            <Border Style="{StaticResource ThemeAwareCard}"
+                    Padding="18, 16"
+                    StrokeShape="RoundRectangle 20">
+                <Grid ColumnDefinitions="*, Auto" VerticalOptions="Center" ColumnSpacing="15">
+                    
+                    <!-- Saludo e Información de Usuario -->
+                    <VerticalStackLayout Grid.Column="0" Spacing="4" VerticalOptions="Center">
+                        <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
+                            <Label Text="{Binding WelcomeMessage}"
+                                   FontSize="20"
+                                   FontFamily="OpenSans-Semibold"
+                                   Style="{StaticResource BoldPrimaryTextStyle}" />
+                            <Border BackgroundColor="{StaticResource SuccessLight}"
+                                    StrokeShape="RoundRectangle 8"
+                                    Padding="6,2"
+                                    VerticalOptions="Center">
+                                <Label Text="Activo"
+                                       FontSize="10"
+                                       FontFamily="OpenSans-Semibold"
+                                       TextColor="{StaticResource SuccessDark}" />
+                            </Border>
+                        </HorizontalStackLayout>
+                        <Label Text="Panel de Gestión y Operaciones"
+                               Style="{StaticResource SecondaryTextStyle}"
+                               FontSize="13" />
+                    </VerticalStackLayout>
+
+                    <!-- Avatar del Usuario con Borde Elegante -->
+                    <Border Grid.Column="1"
+                            StrokeShape="RoundRectangle 24"
+                            HeightRequest="48"
+                            WidthRequest="48"
+                            Stroke="{StaticResource PrimaryLight}"
+                            StrokeThickness="2"
+                            BackgroundColor="{StaticResource PrimaryLight}"
+                            HorizontalOptions="End">
+                        <Image Source="perfil.png"
+                               HeightRequest="28"
+                               WidthRequest="28"
+                               Aspect="AspectFit"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center" />
+                    </Border>
+                </Grid>
+            </Border>
+
+            <!-- 2. Sección de Campañas y Premios (Carrusel) -->
+            <VerticalStackLayout Spacing="10">
+                <Grid ColumnDefinitions="*, Auto">
+                    <Label Text="Premios y Novedades"
+                           Style="{StaticResource SectionTitle}"
+                           VerticalOptions="Center"/>
+                    <Border Grid.Column="1"
+                            BackgroundColor="{StaticResource PrimaryLight}"
+                            StrokeShape="RoundRectangle 12"
+                            Padding="8,3"
+                            VerticalOptions="Center">
+                        <Label Text="Campaña Actual"
+                               FontSize="11"
+                               FontFamily="OpenSans-Semibold"
+                               TextColor="{StaticResource Primary}" />
+                    </Border>
+                </Grid>
+
+                <ScrollView x:Name="ImageScroller"
+                            Orientation="Horizontal"
+                            HeightRequest="175"
+                            HorizontalScrollBarVisibility="Never">
+                    <StackLayout x:Name="ImageContainer"
+                                 Orientation="Horizontal"
+                                 Spacing="12" />
+                </ScrollView>
+            </VerticalStackLayout>
+
+            <!-- 3. Sección de Módulos Principales (Grid 2x3 Moderno) -->
+            <VerticalStackLayout Spacing="12">
+                <Label Text="Módulos Principales"
+                       Style="{StaticResource SectionTitle}"/>
+
+                <Grid ColumnDefinitions="*, *"
+                      RowDefinitions="Auto, Auto, Auto"
+                      RowSpacing="14"
+                      ColumnSpacing="14">
+
+                    <!-- Módulo 1: Cartera y Recaudos -->
+                    <Border Grid.Row="0" Grid.Column="0"
+                            Style="{StaticResource InteractiveTileCard}">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnGridButton1_Click"/>
+                        </Border.GestureRecognizers>
+                        <VerticalStackLayout Spacing="10" Padding="6">
+                            <Border StrokeShape="RoundRectangle 14"
+                                    Padding="10"
+                                    HeightRequest="48"
+                                    WidthRequest="48"
+                                    HorizontalOptions="Start"
+                                    BackgroundColor="#FEE2E2"
+                                    StrokeThickness="0">
+                                <Image Source="carterappal.png" Aspect="AspectFit"/>
+                            </Border>
+                            <VerticalStackLayout Spacing="2">
+                                <Label Text="Cartera"
+                                       FontSize="15"
+                                       Style="{StaticResource BoldPrimaryTextStyle}"/>
+                                <Label Text="Recaudos y bancos"
+                                       FontSize="11"
+                                       Style="{StaticResource SecondaryTextStyle}"/>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Módulo 2: Pedidos (Tracking) -->
+                    <Border Grid.Row="0" Grid.Column="1"
+                            Style="{StaticResource InteractiveTileCard}">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnGridButton2_Click"/>
+                        </Border.GestureRecognizers>
+                        <VerticalStackLayout Spacing="10" Padding="6">
+                            <Border StrokeShape="RoundRectangle 14"
+                                    Padding="10"
+                                    HeightRequest="48"
+                                    WidthRequest="48"
+                                    HorizontalOptions="Start"
+                                    BackgroundColor="#DBEAFE"
+                                    StrokeThickness="0">
+                                <Image Source="pedidos.png" Aspect="AspectFit"/>
+                            </Border>
+                            <VerticalStackLayout Spacing="2">
+                                <Label Text="Pedidos"
+                                       FontSize="15"
+                                       Style="{StaticResource BoldPrimaryTextStyle}"/>
+                                <Label Text="Tracking y estado"
+                                       FontSize="11"
+                                       Style="{StaticResource SecondaryTextStyle}"/>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Módulo 3: Comercial -->
+                    <Border Grid.Row="1" Grid.Column="0"
+                            Style="{StaticResource InteractiveTileCard}">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnGridButton3_Click"/>
+                        </Border.GestureRecognizers>
+                        <VerticalStackLayout Spacing="10" Padding="6">
+                            <Border StrokeShape="RoundRectangle 14"
+                                    Padding="10"
+                                    HeightRequest="48"
+                                    WidthRequest="48"
+                                    HorizontalOptions="Start"
+                                    BackgroundColor="#D1FAE5"
+                                    StrokeThickness="0">
+                                <Image Source="comercial.png" Aspect="AspectFit"/>
+                            </Border>
+                            <VerticalStackLayout Spacing="2">
+                                <Label Text="Comercial"
+                                       FontSize="15"
+                                       Style="{StaticResource BoldPrimaryTextStyle}"/>
+                                <Label Text="Metas e incentivos"
+                                       FontSize="11"
+                                       Style="{StaticResource SecondaryTextStyle}"/>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Módulo 4: Transporte -->
+                    <Border Grid.Row="1" Grid.Column="1"
+                            Style="{StaticResource InteractiveTileCard}">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnGridButton4_Click"/>
+                        </Border.GestureRecognizers>
+                        <VerticalStackLayout Spacing="10" Padding="6">
+                            <Border StrokeShape="RoundRectangle 14"
+                                    Padding="10"
+                                    HeightRequest="48"
+                                    WidthRequest="48"
+                                    HorizontalOptions="Start"
+                                    BackgroundColor="#FEF3C7"
+                                    StrokeThickness="0">
+                                <Image Source="transporte.png" Aspect="AspectFit"/>
+                            </Border>
+                            <VerticalStackLayout Spacing="2">
+                                <Label Text="Transporte"
+                                       FontSize="15"
+                                       Style="{StaticResource BoldPrimaryTextStyle}"/>
+                                <Label Text="Rutas y despachos"
+                                       FontSize="11"
+                                       Style="{StaticResource SecondaryTextStyle}"/>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Módulo 5: Ayuda / Soporte -->
+                    <Border Grid.Row="2" Grid.Column="0"
+                            Style="{StaticResource InteractiveTileCard}">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnGridButton5_Click"/>
+                        </Border.GestureRecognizers>
+                        <VerticalStackLayout Spacing="10" Padding="6">
+                            <Border StrokeShape="RoundRectangle 14"
+                                    Padding="10"
+                                    HeightRequest="48"
+                                    WidthRequest="48"
+                                    HorizontalOptions="Start"
+                                    BackgroundColor="#F3E8FF"
+                                    StrokeThickness="0">
+                                <Image Source="ayuda.png" Aspect="AspectFit"/>
+                            </Border>
+                            <VerticalStackLayout Spacing="2">
+                                <Label Text="Ayuda"
+                                       FontSize="15"
+                                       Style="{StaticResource BoldPrimaryTextStyle}"/>
+                                <Label Text="Soporte y FAQs"
+                                       FontSize="11"
+                                       Style="{StaticResource SecondaryTextStyle}"/>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Módulo 6: Ajustes -->
+                    <Border Grid.Row="2" Grid.Column="1"
+                            Style="{StaticResource InteractiveTileCard}">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnGridButton6_Click"/>
+                        </Border.GestureRecognizers>
+                        <VerticalStackLayout Spacing="10" Padding="6">
+                            <Border StrokeShape="RoundRectangle 14"
+                                    Padding="10"
+                                    HeightRequest="48"
+                                    WidthRequest="48"
+                                    HorizontalOptions="Start"
+                                    BackgroundColor="#F1F5F9"
+                                    StrokeThickness="0">
+                                <Image Source="settings.png" Aspect="AspectFit"/>
+                            </Border>
+                            <VerticalStackLayout Spacing="2">
+                                <Label Text="Ajustes"
+                                       FontSize="15"
+                                       Style="{StaticResource BoldPrimaryTextStyle}"/>
+                                <Label Text="Configuración"
+                                       FontSize="11"
+                                       Style="{StaticResource SecondaryTextStyle}"/>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+
+                </Grid>
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

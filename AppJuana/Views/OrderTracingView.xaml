@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:AppJuana.ViewModels"
+             xmlns:models="clr-namespace:AppJuana.Models"
+             x:Class="AppJuana.Views.OrderTracingView"
+             x:DataType="viewModels:OrderTracingViewModel"
+             Title="Seguimiento de Pedidos"
+             Shell.NavBarIsVisible="True">
+
+    <Grid RowDefinitions="Auto, *" Padding="18, 16" RowSpacing="16">
+
+        <!-- 1. Filtro Superior -->
+        <Border Grid.Row="0"
+                Style="{StaticResource ThemeAwareCard}"
+                Padding="16, 14">
+            <VerticalStackLayout Spacing="12">
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="Tipo de Reporte / Consulta"
+                           FontSize="12"
+                           FontFamily="OpenSans-Semibold"
+                           TextColor="{AppThemeBinding Light={StaticResource TextSecondary}, Dark={StaticResource Gray400}}" />
+                    <Border Style="{StaticResource EntryFrame}">
+                        <Picker Title="Seleccionar tipo de consulta"
+                                ItemsSource="{Binding TracingTypes}"
+                                SelectedItem="{Binding SelectedTracingType}"
+                                FontSize="14"
+                                TextColor="{AppThemeBinding Light={StaticResource TextPrimary}, Dark={StaticResource White}}" />
+                    </Border>
+                </VerticalStackLayout>
+
+                <Button Text="Consultar Pedidos" 
+                        Command="{Binding ConsultarCommand}" 
+                        IsEnabled="{Binding IsNotBusy}"
+                        HeightRequest="46"
+                        FontSize="14" />
+            </VerticalStackLayout>
+        </Border>
+
+        <!-- 2. Listado de Estados y Zonas -->
+        <Grid Grid.Row="1">
+            
+            <!-- Spinner de Carga -->
+            <ActivityIndicator IsRunning="{Binding IsBusy}" 
+                               IsVisible="{Binding IsBusy}" 
+                               Color="{StaticResource Primary}"
+                               HeightRequest="40"
+                               WidthRequest="40"
+                               HorizontalOptions="Center" 
+                               VerticalOptions="Center"/>
+
+            <CollectionView ItemsSource="{Binding OrderTracingData}" 
+                            IsVisible="{Binding IsNotBusy}"
+                            SelectionMode="None">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="12" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:OrderTracing">
+                        <Border Style="{StaticResource ThemeAwareCard}"
+                                Padding="16, 14">
+                            <VerticalStackLayout Spacing="10">
+
+                                <!-- Cabecera: Grupo / Zona y Total Badge -->
+                                <Grid ColumnDefinitions="*, Auto" VerticalOptions="Center">
+                                    <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
+                                        <Border HeightRequest="28"
+                                                WidthRequest="28"
+                                                StrokeShape="RoundRectangle 8"
+                                                BackgroundColor="{StaticResource InfoLight}"
+                                                StrokeThickness="0">
+                                            <Label Text="📦"
+                                                   FontSize="14"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center" />
+                                        </Border>
+                                        <Label Text="{Binding Grupo}" 
+                                               FontSize="15"
+                                               FontFamily="OpenSans-Semibold"
+                                               VerticalOptions="Center"
+                                               Style="{StaticResource BoldPrimaryTextStyle}" />
+                                    </HorizontalStackLayout>
+
+                                    <!-- Badge de Total de Pedidos -->
+                                    <Border Grid.Column="1"
+                                            BackgroundColor="{StaticResource PrimaryLight}"
+                                            StrokeShape="RoundRectangle 10"
+                                            Padding="10, 3">
+                                        <HorizontalStackLayout Spacing="4">
+                                            <Label Text="Total:"
+                                                   FontSize="11"
+                                                   TextColor="{StaticResource Primary}" />
+                                            <Label Text="{Binding total}"
+                                                   FontSize="12"
+                                                   FontFamily="OpenSans-Semibold"
+                                                   TextColor="{StaticResource Primary}" />
+                                        </HorizontalStackLayout>
+                                    </Border>
+                                </Grid>
+
+                                <BoxView HeightRequest="1" Color="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource DarkSurfaceBorder}}" />
+
+                                <!-- Etapas del Flujo (Cuadrícula de 3 Columnas) -->
+                                <Grid ColumnDefinitions="*, *, *" RowDefinitions="Auto, Auto" RowSpacing="10" ColumnSpacing="8">
+                                    
+                                    <!-- 1. Abiertos -->
+                                    <VerticalStackLayout Grid.Row="0" Grid.Column="0" Spacing="2">
+                                        <Label Text="Abiertos" FontSize="11" Style="{StaticResource SecondaryTextStyle}" />
+                                        <Label Text="{Binding Abiertos}" FontSize="14" FontFamily="OpenSans-Semibold" Style="{StaticResource PrimaryTextStyle}" />
+                                    </VerticalStackLayout>
+
+                                    <!-- 2. Facturados -->
+                                    <VerticalStackLayout Grid.Row="0" Grid.Column="1" Spacing="2">
+                                        <Label Text="Facturados" FontSize="11" Style="{StaticResource SecondaryTextStyle}" />
+                                        <Label Text="{Binding Facturados}" FontSize="14" FontFamily="OpenSans-Semibold" TextColor="{StaticResource SuccessDark}" />
+                                    </VerticalStackLayout>
+
+                                    <!-- 3. Libres -->
+                                    <VerticalStackLayout Grid.Row="0" Grid.Column="2" Spacing="2">
+                                        <Label Text="Libres" FontSize="11" Style="{StaticResource SecondaryTextStyle}" />
+                                        <Label Text="{Binding Libres}" FontSize="14" FontFamily="OpenSans-Semibold" Style="{StaticResource PrimaryTextStyle}" />
+                                    </VerticalStackLayout>
+
+                                    <!-- 4. Pase -->
+                                    <VerticalStackLayout Grid.Row="1" Grid.Column="0" Spacing="2">
+                                        <Label Text="Pase" FontSize="11" Style="{StaticResource SecondaryTextStyle}" />
+                                        <Label Text="{Binding Pase}" FontSize="14" FontFamily="OpenSans-Semibold" Style="{StaticResource PrimaryTextStyle}" />
+                                    </VerticalStackLayout>
+
+                                    <!-- 5. Picking -->
+                                    <VerticalStackLayout Grid.Row="1" Grid.Column="1" Spacing="2">
+                                        <Label Text="Picking" FontSize="11" Style="{StaticResource SecondaryTextStyle}" />
+                                        <Label Text="{Binding Picking}" FontSize="14" FontFamily="OpenSans-Semibold" TextColor="{StaticResource InfoDark}" />
+                                    </VerticalStackLayout>
+
+                                    <!-- 6. Transporte -->
+                                    <VerticalStackLayout Grid.Row="1" Grid.Column="2" Spacing="2">
+                                        <Label Text="Transporte" FontSize="11" Style="{StaticResource SecondaryTextStyle}" />
+                                        <Label Text="{Binding Transportes}" FontSize="14" FontFamily="OpenSans-Semibold" TextColor="{StaticResource Warning}" />
+                                    </VerticalStackLayout>
+
+                                </Grid>
+
+                                <!-- Inactivas (si aplica) -->
+                                <Border BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray900}}"
+                                        Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource DarkSurfaceBorder}}"
+                                        StrokeShape="RoundRectangle 8"
+                                        Padding="10, 6">
+                                    <Grid ColumnDefinitions="*, Auto">
+                                        <Label Text="Inactivas:" FontSize="12" Style="{StaticResource SecondaryTextStyle}" />
+                                        <Label Grid.Column="1" Text="{Binding Inactivas}" FontSize="12" FontFamily="OpenSans-Semibold" Style="{StaticResource PrimaryTextStyle}" />
+                                    </Grid>
+                                </Border>
+
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </Grid>
+</ContentPage>

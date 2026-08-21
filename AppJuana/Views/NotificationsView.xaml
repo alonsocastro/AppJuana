@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppJuana.Views.NotificationsView"
+             xmlns:models="clr-namespace:AppJuana.Models"
+             xmlns:viewModels="clr-namespace:AppJuana.ViewModels"
+             x:DataType="viewModels:NotificationsViewModel"
+             Title="Notificaciones">
+
+    <Grid Padding="18, 16">
+        <CollectionView ItemsSource="{Binding Notifications}"
+                        SelectionMode="None">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="12" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Notification">
+                    <Border Style="{StaticResource ThemeAwareCard}"
+                            Padding="14, 12">
+                        <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="12" VerticalOptions="Center">
+                            
+                            <!-- Icono con Fondo Redondeado -->
+                            <Border Grid.Column="0"
+                                    HeightRequest="44"
+                                    WidthRequest="44"
+                                    Padding="10"
+                                    BackgroundColor="{Binding IconBackgroundColor}"
+                                    StrokeThickness="0"
+                                    StrokeShape="RoundRectangle 12"
+                                    VerticalOptions="Center">
+                                <Image Source="{Binding Icon}" Aspect="AspectFit" />
+                            </Border>
+
+                            <!-- Contenido del Mensaje -->
+                            <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                <Label Text="{Binding Title}"
+                                       FontFamily="OpenSans-Semibold"
+                                       FontSize="14"
+                                       Style="{StaticResource BoldPrimaryTextStyle}"/>
+                                <Label Text="{Binding Message}"
+                                       FontSize="12"
+                                       Style="{StaticResource SecondaryTextStyle}"/>
+                            </VerticalStackLayout>
+
+                            <!-- Timestamp -->
+                            <Label Grid.Column="2"
+                                   Text="{Binding Timestamp}"
+                                   FontSize="11"
+                                   TextColor="{StaticResource TextMuted}"
+                                   VerticalOptions="Start"
+                                   HorizontalOptions="End"/>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>
