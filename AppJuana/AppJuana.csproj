@@ -50,6 +50,7 @@
 		<_CodesignApp>false</_CodesignApp>
 		<CodesignKey>-</CodesignKey>
 		<CodesignProvision></CodesignProvision>
+		<_IgnoreXcodeVersionCheck>true</_IgnoreXcodeVersionCheck>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">

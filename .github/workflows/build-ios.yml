@@ -26,6 +26,10 @@ jobs:
         run: |
           dotnet workload install maui
 
+      - name: Restore Project Dependencies
+        run: |
+          dotnet restore AppJuana/AppJuana.csproj
+
       - name: Build iOS Application (Ad-Hoc Signing)
         run: |
           dotnet build AppJuana/AppJuana.csproj \
@@ -35,6 +39,7 @@ jobs:
             -p:CodesignKey="-" \
             -p:CodesignProvision="" \
             -p:ArchiveOnBuild=false \
+            -p:_IgnoreXcodeVersionCheck=true \
             --verbosity normal
 
       - name: Package IPA for Sideloading
