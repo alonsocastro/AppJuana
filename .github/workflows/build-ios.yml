@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: macos-14
+    runs-on: macos-15
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -17,10 +17,10 @@ jobs:
         with:
           xcode-version: 'latest-stable'
 
-      - name: Setup .NET 9.0.100 (Stable GA)
+      - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.0.100'
+          dotnet-version: '9.0.x'
 
       - name: Install MAUI Workloads
         run: |
@@ -41,7 +41,8 @@ jobs:
             -p:ArchiveOnBuild=false \
             -p:ValidateXcodeVersion=false \
             -p:_IgnoreXcodeVersionCheck=true \
-            -p:MtouchLink=SdkOnly \
+            -p:MtouchLink=None \
+            -p:PublishTrimmed=false \
             --verbosity normal
 
       - name: Package IPA for Sideloading
