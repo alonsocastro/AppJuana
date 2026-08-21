@@ -17,14 +17,17 @@ jobs:
         with:
           dotnet-version: '9.0.x'
 
-      - name: Install .NET MAUI iOS Workload
+      - name: Install .NET MAUI Workloads
         run: |
           dotnet workload install maui-ios
 
+      - name: Restore Project
+        run: |
+          dotnet restore AppJuana/AppJuana.csproj -f net9.0-ios
+
       - name: Build iOS Application (Release)
         run: |
-          dotnet publish AppJuana/AppJuana.csproj \
-            -p:TargetFrameworks=net9.0-ios \
+          dotnet build AppJuana/AppJuana.csproj \
             -f net9.0-ios \
             -c Release \
             -r ios-arm64 \
@@ -35,15 +38,19 @@ jobs:
       - name: Package into IPA for Sideloading
         run: |
           mkdir -p Payload
-          # Buscar la carpeta AppJuana.app generada
-          APP_PATH=$(find . -name "*.app" -type d | head -n 1)
-          echo "App encontrado en: $APP_PATH"
+          APP_PATH=$(find ./publish-ios -name "*.app" -type d | head -n 1)
           if [ -z "$APP_PATH" ]; then
-            echo "Error: No se encontró la carpeta .app"
+            APP_PATH=$(find . -name "*.app" -type d | grep -v "Pods" | head -n 1)
+          fi
+          echo "App bundle encontrado en: $APP_PATH"
+          if [ -n "$APP_PATH" ]; then
+            cp -r "$APP_PATH" Payload/
+            zip -r AppJuana.ipa Payload
+          else
+            echo "Directorio de compilación:"
+            ls -la ./publish-ios
             exit 1
           fi
-          cp -r "$APP_PATH" Payload/
-          zip -r AppJuana.ipa Payload
 
       - name: Upload IPA Artifact
         uses: actions/upload-artifact@v4
