@@ -17,37 +17,31 @@ jobs:
         with:
           dotnet-version: '9.0.x'
 
-      - name: Install .NET MAUI Workload for iOS
+      - name: Install .NET MAUI iOS Workload
         run: |
-          dotnet workload restore AppJuana/AppJuana.csproj
           dotnet workload install maui-ios
 
-      - name: Build and Publish iOS Package
+      - name: Build iOS Application (Release)
         run: |
           dotnet publish AppJuana/AppJuana.csproj \
             -f net9.0-ios \
             -c Release \
             -r ios-arm64 \
-            -p:ArchiveOnBuild=true \
-            -p:EnableCodeSigning=false \
-            -o output/ios
+            -p:CodesignKey="" \
+            -p:CodesignProvision="" \
+            -o ./publish-ios
 
-      - name: Package App as ZIP / IPA
+      - name: Package into IPA for Sideloading
         run: |
-          cd output/ios
-          zip -r ../../AppJuana-iOS.zip .
-          # Si se genera .app o .ipa se empaqueta para descarga
-          if [ -d "AppJuana.app" ]; then
-            mkdir -p Payload
-            cp -r AppJuana.app Payload/
-            zip -r ../../AppJuana.ipa Payload
-          fi
+          mkdir -p Payload
+          APP_PATH=$(find . -name "AppJuana.app" -type d | head -n 1)
+          echo "App encontrado en: $APP_PATH"
+          cp -r "$APP_PATH" Payload/
+          zip -r AppJuana.ipa Payload
 
-      - name: Upload iOS IPA / Package Artifact
+      - name: Upload IPA Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: AppJuana-iOS-Build
-          path: |
-            AppJuana.ipa
-            AppJuana-iOS.zip
-            output/ios/
+          name: AppJuana-iOS-IPA
+          path: AppJuana.ipa
+          retention-days: 14
