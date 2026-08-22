@@ -24,7 +24,7 @@ jobs:
 
       - name: Install MAUI Workloads
         run: |
-          dotnet workload install maui
+          dotnet workload install maui-ios
 
       - name: Restore Project Dependencies
         run: |
@@ -41,8 +41,7 @@ jobs:
             -p:ArchiveOnBuild=false \
             -p:ValidateXcodeVersion=false \
             -p:_IgnoreXcodeVersionCheck=true \
-            -p:MtouchLink=None \
-            -p:PublishTrimmed=true \
+            -p:MtouchLink=SdkOnly \
             --verbosity normal
 
       - name: Package IPA for Sideloading
