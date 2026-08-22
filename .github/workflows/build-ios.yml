@@ -28,13 +28,14 @@ jobs:
 
       - name: Restore Project Dependencies
         run: |
-          dotnet restore AppJuana/AppJuana.csproj
+          dotnet restore AppJuana/AppJuana.csproj -p:TargetFrameworks=net9.0-ios
 
       - name: Build iOS Application (Ad-Hoc Signing)
         run: |
           dotnet build AppJuana/AppJuana.csproj \
             -c Release \
             -f net9.0-ios \
+            -p:TargetFrameworks=net9.0-ios \
             -p:RuntimeIdentifier=ios-arm64 \
             -p:CodesignKey="-" \
             -p:CodesignProvision="" \
